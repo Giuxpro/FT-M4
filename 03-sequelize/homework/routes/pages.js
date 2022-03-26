@@ -8,7 +8,8 @@ router.post('/', async function(req, res) {
   // (Debe incluir también la categoría a la/s cual/es pertenece)
   // Tu código acá:
   const { authorName, authorEmail, title, content, categories} = req.body
-// User.findOrCreate({
+
+  // User.findOrCreate({
 //   where:{
 //     name: authorName,
 //     email: authorEmail,
@@ -18,7 +19,7 @@ router.post('/', async function(req, res) {
 //     title,
 //     content
 //   }).then(page =>{
-//       page.setUser(user)
+//       page.setUser(user[0].dataValues.id)
 //       page.setCategories(categories)
 //       res.redirect(page.route)
 //   })
@@ -28,7 +29,7 @@ router.post('/', async function(req, res) {
 //   })
 
 // });
-
+//#### FORMA 2 CON ASYNC AWAIT####
 const userCreated = await User.findOrCreate({
   where:{
     name: authorName,
@@ -40,7 +41,7 @@ const pageCreated = await Page.create({
   content,
 })
 
-  await pageCreated.setUser(userCreated.id)
+  await pageCreated.setUser(userCreated[0].dataValues.id)
   await pageCreated.setCategories(categories)
 
   res.redirect(pageCreated.route)
